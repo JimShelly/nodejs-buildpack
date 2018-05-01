@@ -3,7 +3,6 @@ set -euo pipefail
 
 BUILD_DIR=$1
 CACHE_DIR=$2
-bp_dir=$(cd $(dirname $0); cd ..; pwd)
 
 export BUILDPACK_DIR=`dirname $(readlink -f ${BASH_SOURCE%/*})`
 export DEPS_DIR="$BUILD_DIR/.cloudfoundry"
@@ -15,7 +14,7 @@ echo "export DEPS_DIR=\$HOME/.cloudfoundry" > "$BUILD_DIR/.profile.d/0000_set-de
 
 # Add Oracle binary and libraries to path
 status "Adding Oracle library support"
-unzip $bp_dir/vendor/instantclient.zip -C $build_dir/vendor/
+unzip $BUILDPACK_DIR/vendor/instantclient.zip -C $build_dir/vendor/
 
 $BUILDPACK_DIR/bin/supply "$BUILD_DIR" "$CACHE_DIR" "$DEPS_DIR" 0
 $BUILDPACK_DIR/bin/finalize "$BUILD_DIR" "$CACHE_DIR" "$DEPS_DIR" 0
